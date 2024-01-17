@@ -837,6 +837,12 @@ available starting at Vault version 1.4.
 - Default value: info
 - Requires Vault version 0.11.1 or higher
 
+### `vault_log_format`
+
+- [Log format](https://developer.hashicorp.com/vault/docs/configuration#log_format)
+  - Supported values: standard or json
+- Default value: standard
+
 ### `vault_iface`
 
 - Network interface
