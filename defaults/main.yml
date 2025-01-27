@@ -222,13 +222,12 @@ vault_raft_cluster_members: |
   {% for server in groups[vault_raft_group_name] %}
     {
       "peer": "{{ server }}",
-      "api_addr": "{{ hostvars[server]['vault_api_addr'] |
-      default(vault_protocol + '://' +
+      "api_addr": "{{ hostvars[server]['vault_api_addr'] | default(vault_protocol + '://' +
       hostvars[server]['ansible_' + hostvars[server]['ansible_default_ipv4']['interface']]['ipv4']['address'] + ':' + (vault_port|string)) }}",
-      "tls_ca_file": {{ vault_tls_certs_path }} + {{ server }} + '.int.jusmundi.com.pem',
-      "tls_cert_file": {{ vault_tls_certs_path }} + {{ server }} + '.int.jusmundi.com.pem',
-      "tls_key_file": {{ vault_tls_certs_path }} + {{ server }} + '.int.jusmundi.com.key'
-    },
+      "tls_ca_file": "{{ vault_tls_certs_path }}/{{ server }}.int.jusmundi.com.pem",
+      "tls_cert_file": "{{ vault_tls_certs_path }}/{{ server }}.int.jusmundi.com.pem",
+      "tls_key_file": "{{ vault_tls_certs_path }}/{{ server }}.int.jusmundi.com.key"
+    }{% if not loop.last %},{% endif %}
   {% endfor %}
   ]
 
