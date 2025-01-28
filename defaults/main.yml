@@ -226,7 +226,7 @@ vault_raft_cluster_members: |
       hostvars[server]['ansible_' + hostvars[server]['ansible_default_ipv4']['interface']]['ipv4']['address'] + ':' + (vault_port|string)) }}",
       "tls_ca_file": "{{ vault_tls_certs_path }}/{{ server }}.int.jusmundi.com.pem",
       "tls_cert_file": "{{ vault_tls_certs_path }}/{{ server }}.int.jusmundi.com.pem",
-      "tls_key_file": "{{ vault_tls_certs_path }}/CA.key"
+      "tls_key_file": "{{ vault_tls_certs_path }}/CA.crt"
     }{% if not loop.last %},{% endif %}
   {% endfor %}
   ]
