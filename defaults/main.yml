@@ -217,6 +217,7 @@ vault_gcs_credentials_dst_file: "{{ vault_home }}/{{ vault_gcs_credentials_src_f
 # raft storage settings
 vault_backend: raft
 vault_raft_group_name: "vault_raft_servers"
+vault_raft_altname_suffix: example.com
 vault_raft_cluster_members: |
   [
   {% for server in groups[vault_raft_group_name] %}
@@ -224,9 +225,9 @@ vault_raft_cluster_members: |
       "peer": "{{ server }}",
       "api_addr": "{{ hostvars[server]['vault_api_addr'] | default(vault_protocol + '://' +
       hostvars[server]['ansible_' + hostvars[server]['ansible_default_ipv4']['interface']]['ipv4']['address'] + ':' + (vault_port|string)) }}",
-      "tls_ca_file": "{{ vault_tls_certs_path }}/{{ server }}.int.jusmundi.com.pem",
-      "tls_cert_file": "{{ vault_tls_certs_path }}/{{ server }}.int.jusmundi.com.pem",
-      "tls_key_file": "{{ vault_tls_certs_path }}/CA.crt"
+      "tls_key_file": "{{ vault_tls_certs_path }}/{{ server }}.{{ vault_raft_altname_suffix }}.key",
+      "tls_cert_file": "{{ vault_tls_certs_path }}/{{ server }}.{{ vault_raft_altname_suffix }}.crt",
+      "tls_ca_file": "{{ vault_tls_certs_path }}/cacert.pem"
     }{% if not loop.last %},{% endif %}
   {% endfor %}
   ]
